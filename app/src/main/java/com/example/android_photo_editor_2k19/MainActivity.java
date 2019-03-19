@@ -14,8 +14,4 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
     }
-
-    public String pullRequestTest(){
-        return "Pull request test!";
-    }
 }
