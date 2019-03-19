@@ -14,40 +14,4 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
     }
-
-    public String helloTeam(){
-        return "hello team!!!";
-    }
-    public String success(){
-        return "success!!!";
-    }
-    public String moreChanges(){
-        return "more changes!!!";
-    }
-
-    public String asdasd(){
-        return "MALADEC MALADEC ";
-    }
-
-    public boolean running(String maladec){
-
-        return maladec.equals("MALADEC");
-
-    }
-
-    public String thisIsTooHard(){
-        return "bad choice :(";
-    }
-
-    public String bbTeam(){
-        return "goodbye team!";
-    }
-
-    public String aswdqw(){
-        return "commit pleasdqwdqwdqwe!!!!";
-    }
-
-    public String iamHEre(){
-        return "Im here1q";
-    }
 }
