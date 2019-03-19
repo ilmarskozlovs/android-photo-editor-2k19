@@ -27,4 +27,8 @@ public class MainActivity extends AppCompatActivity {
         return maladec.equals("MALADEC");
 
     }
+    
+    public String thisIsTooHard(){
+        return "bad choice :(";
+    }
 }
