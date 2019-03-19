@@ -94,4 +94,9 @@ here we create folder where we can save picture
 
         return true;
     }
+
+    public String h(){
+        return "h";
+    }
+
 }
