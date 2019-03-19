@@ -46,4 +46,8 @@ public class MainActivity extends AppCompatActivity {
     public String aswdqw(){
         return "commit pleasdqwdqwdqwe!!!!";
     }
+
+    public String iamHEre(){
+        return "Im here";
+    }
 }
