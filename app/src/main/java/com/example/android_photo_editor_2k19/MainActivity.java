@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
     public String success(){
         return "success!!!";
     }
-    
+
     public String asdasd(){
-        return "MALADEC";
+        return "MALADEC MALADEC ";
     }
 }
