@@ -27,8 +27,16 @@ public class MainActivity extends AppCompatActivity {
         return maladec.equals("MALADEC");
 
     }
-    
+
     public String thisIsTooHard(){
         return "bad choice :(";
+    }
+
+    public String bbTeam(){
+        return "goodbye team!";
+    }
+
+    public String aswdqw(){
+        return "commit pleasdqwdqwdqwe!!!!";
     }
 }
