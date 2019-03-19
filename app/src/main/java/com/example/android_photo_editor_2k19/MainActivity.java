@@ -21,4 +21,10 @@ public class MainActivity extends AppCompatActivity {
     public String asdasd(){
         return "MALADEC MALADEC ";
     }
+
+    public boolean running(String maladec){
+
+        return maladec.equals("MALADEC");
+
+    }
 }
