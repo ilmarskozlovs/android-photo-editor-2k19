@@ -14,4 +14,12 @@ public class MainActivity extends AppCompatActivity {
     public String helloTeam(){
         return "hello team!";
     }
+
+    public String bbTeam(){
+        return "goodbye team!";
+    }
+
+    public String aswdqw(){
+        return "commit please!!!!";
+    }
 }
