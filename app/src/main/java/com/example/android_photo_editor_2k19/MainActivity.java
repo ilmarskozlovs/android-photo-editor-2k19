@@ -14,4 +14,7 @@ public class MainActivity extends AppCompatActivity {
     public String helloTeam(){
         return "hello team!!!";
     }
+    public String success(){
+        return "success!!!";
+    }
 }
