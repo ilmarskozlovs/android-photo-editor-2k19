@@ -17,13 +17,9 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     File directory;
-
     final int TYPE_PHOTO = 1;
-
     final int REQUEST_CODE_PHOTO = 1;
-
     final String TAG = "myLogs";
-
     ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +28,19 @@ public class MainActivity extends AppCompatActivity {
         createDirectory();
         imageView = (ImageView)findViewById(R.id.imageView);
     }
+
+    /*
+    open camera
+    if you uncomment that 3rd line code then we can save picture on folder which named "MyFolder"
+     */
     public void onClickPhoto(MenuItem item) {
         Intent intent  = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
         // intent.putExtra(MediaStore.EXTRA_OUTPUT, generateFileUri(TYPE_PHOTO));
         startActivityForResult(intent, REQUEST_CODE_PHOTO);
     }
-
+/*
+take a photo and show you that photo on screen (I guess :D)
+ */
     @Override
     protected void onActivityResult(int requestCode, int resultCode,  Intent intent) {
         if(requestCode == REQUEST_CODE_PHOTO) {
@@ -61,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+/*
+here we can save picture in folder
+ */
     private Uri generateFileUri(int type){
         File file = null;
         if(type == TYPE_PHOTO){
@@ -70,14 +75,18 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "fileName = " + file);
         return Uri.fromFile(file);
     }
-
+/*
+here we create folder where we can save picture
+ */
     private void createDirectory(){
         directory = new File (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"MyFolder");
         if(!directory.exists())
             directory.mkdir();
 
     }
-
+    /*
+    connecting action bar
+     */
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         getMenuInflater().inflate(R.menu.main_menu, menu);
