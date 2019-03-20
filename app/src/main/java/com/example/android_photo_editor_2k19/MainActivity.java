@@ -94,4 +94,8 @@ here we create folder where we can save picture
 
         return true;
     }
+
+    public String test(){
+        return "Commit test to Jevgenijs branch";
+    }
 }
