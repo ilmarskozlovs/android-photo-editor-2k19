@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    menu_main.xml
+    <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="info.androidhive.imagefilters.MainActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <item
+            android:id="@+id/action_open"
+            android:orderInCategory="100"
+            android:title="@string/action_open"
+            app:showAsAction="always"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <item
+            android:id="@+id/action_save"
+            android:orderInCategory="101"
+            android:title="@string/action_save"
+            app:showAsAction="always"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </menu>
+</LinearLayout>
+
