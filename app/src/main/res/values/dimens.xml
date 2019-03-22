@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="thumbnail_size">80dp</dimen>
+    <dimen name="recycler_size">100dp</dimen>
+    <dimen name="thumbnail_horizontal_padding">8dp</dimen>
+    <dimen name="thumbnail_vertical_padding">10dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="margin_horizontal">16dp</dimen>
+    <dimen name="lbl_edit_image_control">100dp</dimen>
+</resources>

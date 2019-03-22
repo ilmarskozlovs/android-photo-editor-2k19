@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.testingdropdown.MainActivity">
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="camera"
+        android:icon="@drawable/ic_camera_alt_black_24dp"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/action_open"
+        android:orderInCategory="100"
+        android:title="OPEN"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="101"
+        android:title="SAVE"
+        app:showAsAction="always" />
+
+
+    <item android:title="Share"
+        android:id="@+id/SHARE"/>
+    <item android:title="Set as wallpaper"
+        android:id="@+id/WALLPAPER"/>
+
+
+</menu>
+
+
