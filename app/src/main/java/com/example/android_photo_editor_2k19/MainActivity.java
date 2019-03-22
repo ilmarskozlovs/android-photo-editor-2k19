@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        initOnClickMethods();
+//        initOnClickMethods();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,6 +57,32 @@ public class MainActivity extends AppCompatActivity {
         ImageView img= (ImageView) findViewById(R.id.image_preview);
         img.setImageResource(R.drawable.monkey);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_open) {
+            dispatchTakePictureIntent();
+            return true;
+        }
+
+        if (id == R.id.action_save) {
+            galleryAddPic();
+            return true;
+        }
+        if (id == R.id.action_settings){
+            //create the intent to take a photo from the gallery
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+            //start the intent with a request code
+            startActivityForResult(intent, SELECT_A_PHOTO);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void initOnClickMethods(){
 

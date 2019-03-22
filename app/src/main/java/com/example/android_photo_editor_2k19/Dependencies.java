@@ -1,6 +1,9 @@
 package com.example.android_photo_editor_2k19;
 
 public class Dependencies {
+
+    //Dependencies in build.gradle(Module:app) file. Include them to dependencies part.
+
 //    dependencies {
 //        implementation fileTree(dir: 'libs', include: ['*.jar'])
 //
