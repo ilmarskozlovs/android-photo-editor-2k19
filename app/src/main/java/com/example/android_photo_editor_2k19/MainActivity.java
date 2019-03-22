@@ -7,6 +7,8 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,6 +23,13 @@ import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    //Rihards methods
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int SELECT_A_PHOTO = 2;
@@ -38,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         initOnClickMethods();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
+        ImageView img= (ImageView) findViewById(R.id.image_preview);
+        img.setImageResource(R.drawable.monkey);
     }
 
     public void initOnClickMethods(){
@@ -71,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void init(){
-        btn_take = findViewById(R.id.btn_take);
-        btn_list = findViewById(R.id.btn_list);
-        btn_load = findViewById(R.id.btn_load);
+        btn_take = findViewById(R.id.action_settings);
+        btn_list = findViewById(R.id.action_save);
+        btn_load = findViewById(R.id.action_open);
 
-        imageView_photo = findViewById(R.id.id_photo);
+        imageView_photo = findViewById(R.id.image_preview);
     }
 
 
@@ -84,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             ImageView iv_photo;
-            iv_photo = findViewById(R.id.id_photo);
+            iv_photo = findViewById(R.id.image_preview);
 
             Glide.with(this).load(currentPhotoPath).into(iv_photo);
         }
@@ -92,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SELECT_A_PHOTO && resultCode == RESULT_OK){
             Uri selectedPhoto = data.getData();
             ImageView iv_photo;
-            iv_photo = findViewById(R.id.id_photo);
+            iv_photo = findViewById(R.id.image_preview);
 
             Glide.with(this).load(selectedPhoto).into(iv_photo);
         }
