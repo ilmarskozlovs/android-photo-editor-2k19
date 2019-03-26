@@ -5,7 +5,7 @@
     tools:context="com.example.android_photo_editor_2k19.MainActivity">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_takePicture"
         android:orderInCategory="100"
         android:title="camera"
         android:icon="@drawable/ic_camera_alt_black_24dp"

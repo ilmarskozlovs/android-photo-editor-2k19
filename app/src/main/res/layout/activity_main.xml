@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:id="@+id/coordinator_layout"
     android:layout_height="match_parent"
+
     tools:context="com.example.android_photo_editor_2k19.MainActivity">
 
     <android.support.design.widget.AppBarLayout

@@ -53,7 +53,7 @@ public class PictureThread extends Thread {
         colorMatrixConcat.setConcat(colorMatrixConcat, colorMatrixBr);
 
         colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrixConcat);
-        paint.setColorFilter(colorMatrixColorFilter);
+//        paint.setColorFilter(colorMatrixColorFilter);
         running = true;
 
     }
@@ -73,7 +73,7 @@ public class PictureThread extends Thread {
         colorMatrixConcat.setConcat(colorMatrixConcat, colorMatrixCon);
 
         colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrixConcat);
-        paint.setColorFilter(colorMatrixColorFilter);
+//        paint.setColorFilter(colorMatrixColorFilter);
         running = true;
 
     }
@@ -94,7 +94,7 @@ public class PictureThread extends Thread {
         colorMatrixConcat.setConcat(colorMatrixConcat, colorMatrixSat);
 
         colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrixConcat);
-        paint.setColorFilter(colorMatrixColorFilter);
+//        paint.setColorFilter(colorMatrixColorFilter);
         running = true;
 
     }
@@ -118,8 +118,10 @@ public class PictureThread extends Thread {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        imageView.setImageBitmap(temp_bitmap);
+//                        imageView.setImageBitmap(temp_bitmap);
+                        imageView.setColorFilter(colorMatrixColorFilter);
                         running = false;
+
                     }
                 });
             }
