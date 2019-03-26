@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
 
             Bitmap bitmap = content.getDrawingCache();
             File root = Environment.getExternalStorageDirectory();
-            File cachePath = new File(root.getAbsolutePath() + "Android/data/com.example.testingdropdown/files/Pictures");
+            File cachePath = new File(root.getAbsolutePath() + "Android/data/com.example.android_photo_editor_2k19/files/Pictures");
             try {
                 cachePath.createNewFile();
                 FileOutputStream ostream = new FileOutputStream(cachePath);
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.testingdropdown.fileprovider",
+                        "com.example.android_photo_editor_2k19.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
