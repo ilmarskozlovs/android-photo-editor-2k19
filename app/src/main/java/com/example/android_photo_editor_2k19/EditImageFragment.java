@@ -108,7 +108,7 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
         seekBarBrightness.setProgress(100);
 
         seekBarContrast.setMax(100);
-        seekBarContrast.setProgress(0);
+        seekBarContrast.setProgress(20);
 
         seekBarSaturation.setMax(510);
         seekBarSaturation.setProgress(255);
@@ -200,6 +200,19 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+
+
+    public void resetSliders(){
+//        seekBarBrightness.setMax(200);
+        seekBarBrightness.setProgress(100);
+
+//        seekBarContrast.setMax(100);
+        seekBarContrast.setProgress(10);
+
+//        seekBarSaturation.setMax(510);
+        seekBarSaturation.setProgress(255);
     }
 
 

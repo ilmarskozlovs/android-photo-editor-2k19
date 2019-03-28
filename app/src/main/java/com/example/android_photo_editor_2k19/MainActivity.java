@@ -44,7 +44,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements EditImageFragment.EditImageFragmentListener, CropImage.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements EditImageFragment.EditImageFragmentListener, RotateImage.OnFragmentInteractionListener{
+
 
     @BindView(R.id.viewpager)
     ViewPager viewPager;
@@ -55,9 +56,8 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
 
-    int brightnessFinal = 0;
-    float saturationFinal = 1.0f;
-    float contrastFinal = 0.0f;
+
+    private float rotation = 0;
 
     Bitmap filteredImage;
     Bitmap bitmap;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText("Edit Image"));
-        tabLayout.addTab(tabLayout.newTab().setText("Crop Image"));
+        tabLayout.addTab(tabLayout.newTab().setText("Rotate Image"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewpager = findViewById(R.id.viewpager);
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -165,10 +165,14 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
                 galleryAddPic();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                resetColorFilter();
             }
             return true;
         }
         if (id == R.id.action_open){
+            resetColorFilter();
+
             openImageFromGallery();
             return true;
         }
@@ -177,7 +181,12 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
             return true;
         }
         if (id == R.id.SHARE){
-            shareButton();
+//            shareButton();
+
+
+
+
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -275,15 +284,14 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
 
     private void galleryAddPic() throws IOException {
 
-        boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
 
-        if (hasCamera) {
             BitmapDrawable draw = (BitmapDrawable) imageView.getDrawable();
             Bitmap bitmap = draw.getBitmap();
 
             FileOutputStream outStream = null;
             File sdCard = Environment.getExternalStorageDirectory();
             File dir = new File(sdCard.getAbsolutePath() + "/Android/data/com.example.android_photo_editor_2k19/files/Pictures");
+//            File dir = new File(sdCard.getAbsolutePath() + "/Images/Pictures");
             String fileName = String.format("%d.jpg", System.currentTimeMillis());
             File outFile = new File(dir, fileName);
             outStream = new FileOutputStream(outFile);
@@ -292,10 +300,8 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
             outStream.close();
             Toast.makeText(this, "Picture is saved to app directory!", Toast.LENGTH_SHORT).show();
         }
-        else {
-            Toast.makeText(this, "This Device has no camera", Toast.LENGTH_SHORT).show();
-        }
-    }
+
+
 
     public void setWallpaper() {
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
@@ -309,14 +315,6 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
 
     public Bitmap viewToBitmap(View view, int width, int height) {
 
-//        reset();
-//        imageView.setColorFilter(new ColorMatrixColorFilter(
-//                new float[]{
-//                        1, 0, 0, 0, 0,
-//                        0, 1, 0, 0, 0,
-//                        0, 0, 1, 0, 0,
-//                        0, 0, 0, 1, 0}
-//        ));
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
@@ -326,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
     public void shareButton(){
 
         String text = "Look at my awesome picture";
-        Uri pictureUri = Uri.parse("Android/data/com.example.android_photo_editor_2k19/files/Pictures/1553759165298.jpg");
+        Uri pictureUri = Uri.parse("Android/data/com.example.android_photo_editor_2k19/files/Pictures/" + this);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_STREAM,  pictureUri);
@@ -334,4 +332,32 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
         shareIntent.setType("image/*");
         startActivity(Intent.createChooser(shareIntent,"Share via"));
     }
+
+    public void resetColorFilter(){
+        imageView.setColorFilter(new ColorMatrixColorFilter(
+                new float[]{
+                        1, 0, 0, 0, 0,
+                        0, 1, 0, 0, 0,
+                        0, 0, 1, 0, 0,
+                        0, 0, 0, 1, 0}
+        ));
+    }
+
+    public void rotateBitmap(float degrees){
+
+        imageView.setRotation(rotation + degrees);
+        rotation += degrees;
+
+    }
+
+    public void onClickRight(View v) {
+
+        rotateBitmap(90);
+    }
+    public void onClickLeft(View v){
+        rotateBitmap(-90);
+    }
+
+
+
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<external-path name="Pictures" path="Images/Pictures" />-->
     <external-path name="my_images" path="Android/data/com.example.android_photo_editor_2k19/files/Pictures" />
 </paths>

@@ -24,8 +24,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 return editImageFragment;
 
             case 1:
-                CropImage cropImage = new CropImage();
-                return cropImage;
+                RotateImage rotateImage = new RotateImage();
+                return rotateImage;
             default:
                 return null;
 
