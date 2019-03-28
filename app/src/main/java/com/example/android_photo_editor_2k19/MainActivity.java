@@ -3,7 +3,6 @@ package com.example.android_photo_editor_2k19;
 import android.Manifest;
 import android.app.WallpaperManager;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -24,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -58,10 +58,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
 
 
     private float rotation = 0;
-
-    Bitmap filteredImage;
     Bitmap bitmap;
-    Bitmap finalImage;
 
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int SELECT_A_PHOTO = 2;
@@ -77,12 +74,20 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_main);
+        initializeButtons();
         ButterKnife.bind(this);
+        toolbar();
+
+
+    }
+
+    public void toolbar(){
+
         bitmap = BitmapFactory.decodeResource(getResources(),R.id.image_preview);
 
-        initializeButtons();
+
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText("Edit Image"));
@@ -112,8 +117,8 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("IK2k19");
 
         ImageView img= (ImageView) findViewById(R.id.image_preview);
         img.setImageResource(R.drawable.monkey);
@@ -138,13 +143,6 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
     @Override
     public void onEditCompleted() {
 
-//        final Bitmap bitmap = filteredImage.copy(Bitmap.Config.ARGB_8888, true);
-//
-//        Filter myFilter = new Filter();
-//        myFilter.addSubFilter(new BrightnessSubFilter(brightnessFinal));
-//        myFilter.addSubFilter(new ContrastSubFilter(contrastFinal));
-//        myFilter.addSubFilter(new SaturationSubfilter(saturationFinal));
-//        finalImage = myFilter.processFilter(bitmap);
 
     }
 
@@ -172,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
         }
         if (id == R.id.action_open){
             resetColorFilter();
-
+            resetSliders();
             openImageFromGallery();
             return true;
         }
@@ -181,12 +179,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
             return true;
         }
         if (id == R.id.SHARE){
-//            shareButton();
-
-
-
-
-
+            shareButton();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -291,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
             FileOutputStream outStream = null;
             File sdCard = Environment.getExternalStorageDirectory();
             File dir = new File(sdCard.getAbsolutePath() + "/Android/data/com.example.android_photo_editor_2k19/files/Pictures");
-//            File dir = new File(sdCard.getAbsolutePath() + "/Images/Pictures");
             String fileName = String.format("%d.jpg", System.currentTimeMillis());
             File outFile = new File(dir, fileName);
             outStream = new FileOutputStream(outFile);
@@ -348,6 +340,15 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
         imageView.setRotation(rotation + degrees);
         rotation += degrees;
 
+    }
+
+    public void resetSliders(){
+        SeekBar b = (SeekBar)findViewById(R.id.seekbar_brightness);
+        b.setProgress(100);
+        SeekBar c = (SeekBar)findViewById(R.id.seekbar_contrast);
+        c.setProgress(0);
+        SeekBar s = (SeekBar)findViewById(R.id.seekbar_saturation);
+        s.setProgress(255);
     }
 
     public void onClickRight(View v) {

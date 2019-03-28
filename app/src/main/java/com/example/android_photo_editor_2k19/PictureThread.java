@@ -14,8 +14,6 @@ public class PictureThread extends Thread {
     private ImageView imageView;
     private Bitmap bitmap;
     private Bitmap temp_bitmap;
-    //    private Bitmap cont_bitmap;
-    private float rotation;
     private Canvas canvas;
     private Paint paint;
     private ColorMatrix colorMatrixBr = new ColorMatrix();
@@ -39,11 +37,7 @@ public class PictureThread extends Thread {
     }
 
     public void adjustBrightness(float brightness){
-//        try {
-//            sleep(100);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+
         brightness = brightness * 2.55f;
         colorMatrixBr.set(new float[]{
                 1, 0, 0, 0, brightness,
@@ -55,7 +49,7 @@ public class PictureThread extends Thread {
         colorMatrixConcat.setConcat(colorMatrixConcat, colorMatrixBr);
 
         colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrixConcat);
-//        paint.setColorFilter(colorMatrixColorFilter);
+
         running = true;
 
     }
@@ -76,7 +70,7 @@ public class PictureThread extends Thread {
         colorMatrixConcat.setConcat(colorMatrixConcat, colorMatrixCon);
 
         colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrixConcat);
-//        paint.setColorFilter(colorMatrixColorFilter);
+
         running = true;
 
     }
@@ -97,22 +91,10 @@ public class PictureThread extends Thread {
         colorMatrixConcat.setConcat(colorMatrixConcat, colorMatrixSat);
 
         colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrixConcat);
-//        paint.setColorFilter(colorMatrixColorFilter);
+
         running = true;
 
     }
-
-    public void rotateImage(float degrees){
-//        matrix.setRotate(degrees);
-//        Bitmap rotBitmap = Bitmap.createBitmap(temp_bitmap, 0, 0, temp_bitmap.getWidth(), temp_bitmap.getHeight(), matrix, true);
-//        canvas.drawBitmap(rotBitmap, 0, 0, paint);
-        imageView.setRotation(rotation + degrees);
-        rotation += degrees;
-
-//        return temp_bitmap;
-    }
-
-
     @Override
     public void run() {
         while (true){
@@ -123,7 +105,7 @@ public class PictureThread extends Thread {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-//                        imageView.setImageBitmap(temp_bitmap);
+
                         imageView.setColorFilter(colorMatrixColorFilter);
                         running = false;
 
