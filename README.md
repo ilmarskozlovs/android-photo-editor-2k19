@@ -7,36 +7,36 @@ Android-photo-editor-2k19 is an application that provides instruments to edit im
 ### Prerequisites
 
   *[Android Studio]("https://developer.android.com/studio/index.html"), together with the Android SDK and supporting libraries appropriate for your target platform. 
-  *For running on Android devices, the library requires Android 4.0.3 (API level 15) or higher.
+  *For running on Android devices, the library requires Android KitKat 	4.4 - 4.4.4 (API level 19) or higher.
   
 ### Installation
 Clone this repository and import into Android studio.
 
-'''git clone git@github.com:ilmarskozlovs/<reponame>.git'''
+'''git clone https://github.com/ilmarskozlovs/android-photo-editor-2k19.git'''
   
   To launch the app simply press 'Shift + F10', and then choose device on which you want to run this application.
   
 ## Features
 Currently Android-photo-editor-2k19 provides following features that can be done with images:
- *SetBrightness -
+ *AdjustBrightness - changes brightness of an image.
  
- *SetContrast -
+ *AdjustContrast - changes contrast of an image.
  
- *SetSaturation -
+ *AdjustSaturation - changes saturation of an image.
  
- *RotatePicture -
+ *RotatePicture - rotates the picture.
  
- *Take a picture -
+ *Take a picture - opens the camera of a device, if user grants permission, and captures a photo.
  
- *Open image from a gallery -
+ *Open image from a gallery - opens a gallery or file folder, to take a picture and use it further.
  
- *Save current imageView -
+ *Save current imageView - saves current imageView to application folder, which is located in InternalStorage/Application/Android/data/com.example.android_photo_editor_2k19/files/Pictures.
  
- *Set image as wallpaper - 
+ *Set image as wallpaper - sets current imageView to devices wall.
  
   ## Contributors
   
-  This project initial contributors -
+  ### This project initial contributors -
   
   -Jevgenijs
   
@@ -50,6 +50,7 @@ Currently Android-photo-editor-2k19 provides following features that can be done
   Feel free to ask questions, give some comments, or ask help - '''create an issue'''
   
   If you want to contribute to this project simply :
+  
   Fork it
   
   Create your feature branch (git checkout -b my-new-feature)
