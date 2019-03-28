@@ -15,6 +15,7 @@ public class PictureThread extends Thread {
     private Bitmap bitmap;
     private Bitmap temp_bitmap;
     //    private Bitmap cont_bitmap;
+    private float rotation;
     private Canvas canvas;
     private Paint paint;
     private ColorMatrix colorMatrixBr = new ColorMatrix();
@@ -43,6 +44,7 @@ public class PictureThread extends Thread {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+        brightness = brightness * 2.55f;
         colorMatrixBr.set(new float[]{
                 1, 0, 0, 0, brightness,
                 0, 1, 0, 0, brightness,
@@ -59,14 +61,15 @@ public class PictureThread extends Thread {
     }
 
     public void adjustContrast(float contrast){
-//        float scale = contrast + 1.f;
-//        float translate = (-.5f * scale + .5f) * 255.f;
         contrast /= 10;
+        float scale = contrast + 1.f;
+        float translate = (-.5f * scale + .5f) * 255.f;
+
         colorMatrixCon.set(new float[]{
 
-                contrast, 0, 0, 0, 0,
-                0, contrast, 0, 0, 0,
-                0, 0, contrast, 0, 0,
+                scale, 0, 0, 0, translate,
+                0, scale, 0, 0, translate,
+                0, 0, scale, 0, translate,
                 0, 0, 0, 1, 0});
 
         colorMatrixConcat.setConcat(colorMatrixSat, colorMatrixBr);
@@ -99,10 +102,12 @@ public class PictureThread extends Thread {
 
     }
 
-    public void rotateBitmap(float degrees){
-        matrix.setRotate(degrees);
-        Bitmap rotBitmap = Bitmap.createBitmap(temp_bitmap, 0, 0, temp_bitmap.getWidth(), temp_bitmap.getHeight(), matrix, true);
-        canvas.drawBitmap(rotBitmap, 0, 0, paint);
+    public void rotateImage(float degrees){
+//        matrix.setRotate(degrees);
+//        Bitmap rotBitmap = Bitmap.createBitmap(temp_bitmap, 0, 0, temp_bitmap.getWidth(), temp_bitmap.getHeight(), matrix, true);
+//        canvas.drawBitmap(rotBitmap, 0, 0, paint);
+        imageView.setRotation(rotation + degrees);
+        rotation += degrees;
 
 //        return temp_bitmap;
     }

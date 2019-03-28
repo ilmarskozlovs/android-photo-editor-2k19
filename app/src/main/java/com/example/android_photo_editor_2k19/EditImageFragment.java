@@ -16,7 +16,6 @@ import com.zomato.photofilters.imageprocessors.Filter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -44,8 +43,6 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
 //    private SeekBar seekBarContrast;
 //    private SeekBar seekBarSaturation;
     private PictureThread thread;
-
-
 
     @BindView(R.id.seekbar_brightness)
     SeekBar seekBarBrightness;
@@ -101,10 +98,6 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
         ImageView mLogo = (ImageView)getActivity().findViewById(R.id.image_preview);
         mLogo.setImageBitmap(bitmap);
 
-//        imageView = view.findViewById(R.id.image_preview);
-//        imageView.setImageResource(R.drawable.dog);
-//        imageView.setImageBitmap(bitmap);
-//
         thread = new PictureThread(mLogo,bitmap);
         thread.start();
 
@@ -115,7 +108,7 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
         seekBarBrightness.setProgress(100);
 
         seekBarContrast.setMax(100);
-        seekBarContrast.setProgress(50);
+        seekBarContrast.setProgress(0);
 
         seekBarSaturation.setMax(510);
         seekBarSaturation.setProgress(255);

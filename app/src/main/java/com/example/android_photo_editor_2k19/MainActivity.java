@@ -3,44 +3,37 @@ package com.example.android_photo_editor_2k19;
 import android.Manifest;
 import android.app.WallpaperManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.android_photo_editor_2k19.utils.BitmapUtils;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.zomato.photofilters.imageprocessors.Filter;
-import com.zomato.photofilters.imageprocessors.subfilters.BrightnessSubFilter;
-import com.zomato.photofilters.imageprocessors.subfilters.ContrastSubFilter;
-import com.zomato.photofilters.imageprocessors.subfilters.SaturationSubfilter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -50,13 +43,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 public class MainActivity extends AppCompatActivity implements EditImageFragment.EditImageFragmentListener, CropImage.OnFragmentInteractionListener{
+
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-    private TextView mTextMessage;
-
-    Bitmap bitmap;
-
 
     @BindView(R.id.image_preview)
     ImageView imageView;
@@ -66,15 +57,10 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
 
     int brightnessFinal = 0;
     float saturationFinal = 1.0f;
-    float contrastFinal = 1.0f;
+    float contrastFinal = 0.0f;
 
-
-    Bitmap originalImage;
-    // to backup image with filter applied
     Bitmap filteredImage;
-
-    // the final image after applying
-    // brightness, saturation, contrast
+    Bitmap bitmap;
     Bitmap finalImage;
 
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -92,10 +78,11 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
         bitmap = BitmapFactory.decodeResource(getResources(),R.id.image_preview);
-        init();
-//        imageView = findViewById(R.id.image_preview);
+
+        initializeButtons();
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText("Edit Image"));
@@ -151,13 +138,13 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
     @Override
     public void onEditCompleted() {
 
-        final Bitmap bitmap = filteredImage.copy(Bitmap.Config.ARGB_8888, true);
-
-        Filter myFilter = new Filter();
-        myFilter.addSubFilter(new BrightnessSubFilter(brightnessFinal));
-        myFilter.addSubFilter(new ContrastSubFilter(contrastFinal));
-        myFilter.addSubFilter(new SaturationSubfilter(saturationFinal));
-        finalImage = myFilter.processFilter(bitmap);
+//        final Bitmap bitmap = filteredImage.copy(Bitmap.Config.ARGB_8888, true);
+//
+//        Filter myFilter = new Filter();
+//        myFilter.addSubFilter(new BrightnessSubFilter(brightnessFinal));
+//        myFilter.addSubFilter(new ContrastSubFilter(contrastFinal));
+//        myFilter.addSubFilter(new SaturationSubfilter(saturationFinal));
+//        finalImage = myFilter.processFilter(bitmap);
 
     }
 
@@ -179,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            saveImageToGallery();
             return true;
         }
         if (id == R.id.action_open){
@@ -187,34 +173,13 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
             return true;
         }
         if (id == R.id.WALLPAPER){
-            startWall();
+            setWallpaper();
             return true;
         }
         if (id == R.id.SHARE){
-            View content = findViewById(R.id.image_preview);
-            content.setDrawingCacheEnabled(true);
-
-            Bitmap bitmap = content.getDrawingCache();
-            File root = Environment.getExternalStorageDirectory();
-            File cachePath = new File(root.getAbsolutePath() + "Android/data/com.example.android_photo_editor_2k19/files/Pictures");
-            try {
-                cachePath.createNewFile();
-                FileOutputStream ostream = new FileOutputStream(cachePath);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
-                ostream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            Intent share = new Intent(Intent.ACTION_SEND);
-            share.setType("image/*");
-            share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(cachePath));
-            startActivity(Intent.createChooser(share,"Share via"));
-
+            shareButton();
+            return true;
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -227,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
                             Intent intent = new Intent(Intent.ACTION_PICK);
                             intent.setType("image/*");
                             startActivityForResult(intent, SELECT_A_PHOTO);
+                            Toast.makeText(getApplicationContext(),"Select a photo!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "Permissions are not granted!", Toast.LENGTH_SHORT).show();
                         }
@@ -239,58 +205,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
                 }).check();
     }
 
-
-    private void saveImageToGallery() {
-        Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-                            final String path = BitmapUtils.insertImage(getContentResolver(), finalImage, System.currentTimeMillis() + "_profile.jpg", null);
-                            if (!TextUtils.isEmpty(path)) {
-                                Snackbar snackbar = Snackbar
-                                        .make(coordinatorLayout, "Image saved to gallery!", Snackbar.LENGTH_LONG)
-                                        .setAction("OPEN", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                openImage(path);
-                                            }
-                                        });
-
-                                snackbar.show();
-                            } else {
-                                Snackbar snackbar = Snackbar
-                                        .make(coordinatorLayout, "Image saved!", Snackbar.LENGTH_LONG);
-
-                                snackbar.show();
-                            }
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Permissions are not granted!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
-
-    }
-
-    private void openImage(String path) {
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_VIEW);
-//        intent.setDataAndType(Uri.parse(path), "image/*");
-//        startActivity(intent);
-//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//        File f = new File(currentPhotoPath);
-//        Uri contentUri = Uri.fromFile(f);
-//        mediaScanIntent.setData(contentUri);
-//        this.sendBroadcast(mediaScanIntent);
-    }
-
-
-    public void init(){
+    public void initializeButtons(){
         btn_take = findViewById(R.id.action_takePicture);
         btn_list = findViewById(R.id.action_save);
         btn_load = findViewById(R.id.action_open);
@@ -327,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
             File photoFile = null;
             try {
                 photoFile = createImageFile();
+                Toast.makeText(getApplicationContext(), "Take a Picture!", Toast.LENGTH_SHORT).show();
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 Toast.makeText(this, "Something went wrong. Could not create file.", Toast.LENGTH_SHORT).show();
@@ -358,37 +274,49 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
     }
 
     private void galleryAddPic() throws IOException {
-//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//        File f = new File(currentPhotoPath);
-//        Uri contentUri = Uri.fromFile(f);
-//        mediaScanIntent.setData(contentUri);
-//        this.sendBroadcast(mediaScanIntent);
-        BitmapDrawable draw = (BitmapDrawable) imageView.getDrawable();
-        Bitmap bitmap = draw.getBitmap();
 
-        FileOutputStream outStream = null;
-        File sdCard = Environment.getExternalStorageDirectory();
-        File dir = new File(sdCard.getAbsolutePath() + "/Android/data/com.example.android_photo_editor_2k19/files/Pictures");
-//        dir.mkdirs();
-        String fileName = String.format("%d.jpg", System.currentTimeMillis());
-        File outFile = new File(dir, fileName);
-        outStream = new FileOutputStream(outFile);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-        outStream.flush();
-        outStream.close();
+        boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+
+        if (hasCamera) {
+            BitmapDrawable draw = (BitmapDrawable) imageView.getDrawable();
+            Bitmap bitmap = draw.getBitmap();
+
+            FileOutputStream outStream = null;
+            File sdCard = Environment.getExternalStorageDirectory();
+            File dir = new File(sdCard.getAbsolutePath() + "/Android/data/com.example.android_photo_editor_2k19/files/Pictures");
+            String fileName = String.format("%d.jpg", System.currentTimeMillis());
+            File outFile = new File(dir, fileName);
+            outStream = new FileOutputStream(outFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+            Toast.makeText(this, "Picture is saved to app directory!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "This Device has no camera", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void startWall() {
+    public void setWallpaper() {
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
         try {
             wallpaperManager.setBitmap(viewToBitmap(imageView, imageView.getWidth(), imageView.getHeight()));
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Wallpaper is updated!", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static Bitmap viewToBitmap(View view, int width, int height) {
+    public Bitmap viewToBitmap(View view, int width, int height) {
+
+//        reset();
+//        imageView.setColorFilter(new ColorMatrixColorFilter(
+//                new float[]{
+//                        1, 0, 0, 0, 0,
+//                        0, 1, 0, 0, 0,
+//                        0, 0, 1, 0, 0,
+//                        0, 0, 0, 1, 0}
+//        ));
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
@@ -396,13 +324,14 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
     }
 
     public void shareButton(){
-        Intent intent1 = new Intent(Intent.ACTION_SEND);
-        intent1.setType("image/jpg");
-        final File photoFile = new File(getFilesDir(), "foo.jpg");
-        intent1.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
-        startActivity(Intent.createChooser(intent1, "Share image using"));
-//        intent1.putExtra(Intent.EXTRA_SUBJECT,shareSub);
-//        intent1.putExtra(Intent.EXTRA_TEXT,shareBody);
-//        startActivity(Intent.createChooser(intent1, "Share using: "));
+
+        String text = "Look at my awesome picture";
+        Uri pictureUri = Uri.parse("Android/data/com.example.android_photo_editor_2k19/files/Pictures/1553759165298.jpg");
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM,  pictureUri);
+        shareIntent.putExtra(Intent.EXTRA_TEXT,  text);
+        shareIntent.setType("image/*");
+        startActivity(Intent.createChooser(shareIntent,"Share via"));
     }
 }
