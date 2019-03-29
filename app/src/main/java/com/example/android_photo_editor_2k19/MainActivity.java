@@ -117,8 +117,6 @@ public class MainActivity extends AppCompatActivity implements EditImageFragment
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("IK2k19");
 
         ImageView img= (ImageView) findViewById(R.id.image_preview);
         img.setImageResource(R.drawable.monkey);
