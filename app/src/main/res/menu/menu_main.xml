@@ -5,6 +5,27 @@
     tools:context="com.example.android_photo_editor_2k19.MainActivity">
 
     <item
+        android:title=""
+        android:orderInCategory="10"
+        android:icon="@drawable/ape"
+        app:showAsAction="always"
+
+        />
+
+    <item
+        android:title=""
+        android:orderInCategory="11"
+        app:showAsAction="always"/>
+
+    <item
+        android:title=""
+        android:orderInCategory="12"
+        app:showAsAction="always"/>
+
+
+
+
+    <item
         android:id="@+id/action_takePicture"
         android:orderInCategory="100"
         android:title="camera"

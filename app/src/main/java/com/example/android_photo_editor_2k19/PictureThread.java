@@ -16,7 +16,7 @@ public class PictureThread extends Thread {
     private Bitmap temp_bitmap;
     private Canvas canvas;
     private Paint paint;
-    public ColorMatrix colorMatrixBr = new ColorMatrix();
+    private ColorMatrix colorMatrixBr = new ColorMatrix();
     private ColorMatrix colorMatrixCon = new ColorMatrix();
     private ColorMatrix colorMatrixSat = new ColorMatrix();
 
@@ -30,9 +30,9 @@ public class PictureThread extends Thread {
     public PictureThread(ImageView imageView, Bitmap bitmap){
         this.imageView = imageView;
         this.bitmap = bitmap;
-//        temp_bitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
-//        canvas = new Canvas(temp_bitmap);
-//        paint = new Paint();
+        temp_bitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+        canvas = new Canvas(temp_bitmap);
+        paint = new Paint();
         handler = new Handler();
     }
 
